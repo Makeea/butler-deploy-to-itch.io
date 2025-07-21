@@ -1,0 +1,59 @@
+name: Deploy to Itch.io
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          sudo mv butler /usr/local/bin/
+          sudo chmod +x /usr/local/bin/butler
+
+      # Deploy HTML build to Itch.io
+      # Replace 'username/game-name' with your itch.io username and game name
+      - name: Deploy to Itch.io (HTML)
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          butler -V
+          butler push www username/game-name:html
+
+      # To deploy a Windows build, uncomment below:
+      # - name: Deploy to Itch.io (Windows)
+      #   env:
+      #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      #   run: |
+      #     butler push build/windows username/game-name:windows
+
+      # To deploy a Mac build, uncomment below:
+      # - name: Deploy to Itch.io (Mac)
+      #   env:
+      #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      #   run: |
+      #     butler push build/macos username/game-name:mac
+
+      # To deploy a Linux build, uncomment below:
+      # - name: Deploy to Itch.io (Linux)
+      #   env:
+      #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      #   run: |
+      #     butler push build/linux username/game-name:linux
+
+# HOW TO GET YOUR API KEY:
+# 1. Go to https://itch.io/user/settings/api-keys (you need to be logged in)
+# 2. Generate a new key if you don’t have one
+# 3. Copy your key
+# 4. In your GitHub repo, go to Settings > Secrets and variables > Actions
+# 5. Add a new secret named BUTLER_API_KEY and paste your key there
+# Do NOT put your key in this YAML file!
