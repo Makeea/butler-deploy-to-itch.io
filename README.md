@@ -102,12 +102,12 @@ jobs:
 butler push build/macos username/game-name:mac
 ```
 
-* `butler push` — Runs Butler to upload your build to Itch.io.
-* `build/macos` — Path to your build output folder. Use whatever folder your build process creates: `build/macos` for Mac, `build/windows` for Windows, `dist` or `www` for HTML, etc.
-* `username/game-name` — Your Itch.io username and your game’s URL-friendly name (the “slug”).
-* `:mac` — The channel on Itch.io. Use `:mac` for Mac, `:windows` for Windows, `:linux` for Linux, or `:html` for web builds.
+* `butler push` runs Butler to upload your build to Itch.io.
+* `build/macos` is your build output folder. Use whatever folder your build process creates: `build/macos` for Mac, `build/windows` for Windows, `dist` or `www` for HTML, etc.
+* `username/game-name` is your Itch.io username and your game’s URL-friendly name (the "slug").
+* `:mac` is the channel on Itch.io. Use `:mac` for Mac, `:windows` for Windows, `:linux` for Linux, or `:html` for web builds.
 
-**Universal example:**
+Universal example:
 
 ```bash
 butler push www username/game-name:html      # HTML build from the www folder
@@ -116,7 +116,7 @@ butler push build/macos username/game-name:mac
 butler push build/linux username/game-name:linux
 ```
 
-**Real-world example:**
+Real-world example:
 
 ```bash
 butler push www makeea/chrono-courier:html
@@ -125,7 +125,7 @@ butler push build/macos makeea/chrono-courier:mac
 butler push build/linux makeea/chrono-courier:linux
 ```
 
-* The first part (`www`, `build/macos`, etc.) is your local build output folder.
+* The first part (www, build/macos, etc.) is your local build output folder.
 * The second part is always your username, your game’s name, and the platform channel.
 * Channels control which platform tab users will see on your Itch page.
 * Add or remove build steps for Windows, Mac, Linux as needed
