@@ -1,0 +1,44 @@
+name: Deploy Turbo Game to Itch.io (Web Only)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          rustup update stable
+          rustup target add wasm32-unknown-unknown
+
+      - name: Install Turbo CLI
+        run: |
+          curl -sSfL https://turbo.computer/install.sh | TURBO_VERSION=0.8.0-alpha.8 sh
+
+      - name: Build for web (HTML/WASM)
+        run: |
+          source $HOME/.cargo/env
+          turbo export
+        # Exports HTML5/WASM to www
+
+      - name: Install Butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          sudo mv butler /usr/local/bin/
+          sudo chmod +x /usr/local/bin/butler
+
+      - name: Deploy to Itch.io (HTML)
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          butler push www makeea/chrono-courier:html
