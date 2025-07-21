@@ -29,31 +29,34 @@ jobs:
           butler -V
           butler push www username/game-name:html
 
-      # To deploy a Windows build, uncomment below:
+      # To deploy Windows build, uncomment below:
       # - name: Deploy to Itch.io (Windows)
       #   env:
       #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
       #   run: |
       #     butler push build/windows username/game-name:windows
 
-      # To deploy a Mac build, uncomment below:
+      # To deploy Mac build, uncomment below:
       # - name: Deploy to Itch.io (Mac)
       #   env:
       #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
       #   run: |
       #     butler push build/macos username/game-name:mac
 
-      # To deploy a Linux build, uncomment below:
+      # To deploy Linux build, uncomment below:
       # - name: Deploy to Itch.io (Linux)
       #   env:
       #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
       #   run: |
       #     butler push build/linux username/game-name:linux
 
-# HOW TO GET YOUR API KEY:
-# 1. Go to https://itch.io/user/settings/api-keys (you need to be logged in)
-# 2. Generate a new key if you don’t have one
-# 3. Copy your key
-# 4. In your GitHub repo, go to Settings > Secrets and variables > Actions
-# 5. Add a new secret named BUTLER_API_KEY and paste your key there
-# Do NOT put your key in this YAML file!
+      # To deploy all at once, you can combine the commands in a single run:
+      # - name: Deploy all builds to Itch.io (HTML, Windows, Mac, Linux)
+      #   env:
+      #     BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      #   run: |
+      #     butler -V
+      #     butler push www username/game-name:html
+      #     butler push build/windows username/game-name:windows
+      #     butler push build/macos username/game-name:mac
+      #     butler push build/linux username/game-name:linux
